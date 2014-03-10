@@ -11,8 +11,7 @@ module.exports = function() {
         files: [
           "lib",
           "tasks",
-          "package.json",
-          "node_modules"
+          "package.json"
         ],
 
         tag: "<%= pkg.version %>",
