@@ -15,8 +15,15 @@ module.exports = function(grunt) {
   var spawn = Promise.denodeify(grunt.util.spawn, 2);
 
   function shell(command, args) {
-    console.log(command, args);
-    return spawn({ cmd: command, args: args });
+    var task = spawn({ cmd: command, args: args });
+    
+    task.then(function() {
+      console.log("Exec => ", command, args.join(" "));
+    }, function(message) {
+      console.error(message); 
+    });
+
+    return task;
   }
 
   grunt.registerMultiTask("release", "Release to orphan branch.", function() {
