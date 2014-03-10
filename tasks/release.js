@@ -9,77 +9,31 @@
 "use strict";
 
 var Promise = require("promise");
+var Git = require("../lib/git");
 
 module.exports = function(grunt) {
-
   var spawn = Promise.denodeify(grunt.util.spawn, 2);
-  var args = function(args) { return args.split(" "); };
 
-  // Checkout or switch to the orphan branch.
-  function checkout() {
-    return Promise(function(resolve, reject) {
-      console.log("1");
-      resolve();
-    });
+  function shell(command, args) {
+    console.log(command, args);
+    return spawn({ cmd: command, args: args });
   }
 
-  // Checkout or switch to the orphan branch.
-  function add() {
-    return Promise(function(resolve, reject) {
-      console.log("2");
-      resolve();
-    });
-  }
-
-  // Checkout or switch to the orphan branch.
-  function commit() {
-    return Promise(function(resolve, reject) {
-      console.log("3");
-      resolve();
-    });
-  }
-
-  // Checkout or switch to the orphan branch.
-  function tag() {
-    return Promise(function(resolve, reject) {
-      console.log("4");
-      resolve();
-    });
-  }
-
-  // Checkout or switch to the orphan branch.
-  function clean() {
-    return Promise(function(resolve, reject) {
-      console.log("5");
-      resolve();
-    });
-  }
-
-  grunt.registerMultiTask("release", "Commit and tag to orphan branch.", function() {
-    var options = this.options({
-      branch: "release" 
-    });
-
+  grunt.registerMultiTask("release", "Release to orphan branch.", function() {
+    var options = this.options({});
     var done = this.async();
 
-    var currentBranch = spawn({
-      cmd: "git", args: args("rev-parse --abbrev-ref HEAD")
-    });
+    // Scope all methods to this shell and options.
+    var git = Git(shell, options);
 
-    // Take the current branch and continue.
-    currentBranch.then(function(source) {
-      console.log(source);
-
-      return checkout()
-        .then(add())
-        .then(commit())
-        .then(tag())
-        .then(clean())
-        .then(function() {
-          done();
-        });
-    }, function() {
-      console.log(arguments); 
-    });
+    // Using the Git methods, execute this task.
+    git
+      .source()
+      .then(git.target)
+      .then(git.add)
+      .then(git.commit)
+      .then(git.tag)
+      .then(git.clean)
+      .then(done);
   });
 };
