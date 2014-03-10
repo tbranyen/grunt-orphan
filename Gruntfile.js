@@ -17,7 +17,7 @@ module.exports = function() {
 
         tag: "<%= pkg.version %>",
         
-        commit: "Version <%= pkg.version %>"
+        commit: "Version <%= pkg.version %> release."
       },
 
       default: {}
