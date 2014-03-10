@@ -9,6 +9,8 @@ module.exports = function() {
         branch: "release",
 
         files: [
+          "lib",
+          "tasks",
           "package.json",
           "node_modules"
         ],
