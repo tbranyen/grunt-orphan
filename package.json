@@ -1,9 +1,9 @@
 {
   "name": "grunt-orphan",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Release to an orphan branch.",
   "main": "index.js",
-  "author": "",
+  "author": "Tim Branyen (@tbranyen)",
   "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.3"
